@@ -1,4 +1,4 @@
-import os, pandas as pd
+import os
 from pathlib import Path
 
 def getAgedDirectoryFiles(base_directory: str, age: int=0):
