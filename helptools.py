@@ -19,5 +19,5 @@ def getAgedDirectoryFiles(base_directory: str, age: int=0):
   all_full_dirs = []
   for k in all_files.keys():
     for v in all_files[k]:
-      all_full_dirs.append('\\'.join([base_directory, k, v]).replace('\\\\', '\\'))
+      all_full_dirs.append('\\'.join([paths, k, v]).replace('\\\\', '\\'))
   return [all_files, all_full_dirs]
