@@ -1,4 +1,4 @@
-import os
+import os, pandas as pd
 from pathlib import Path
 from stat import S_IREAD, S_IRGRP, S_IROTH, S_IWRITE, S_IWGRP, S_IWOTH
 
@@ -41,3 +41,11 @@ def fileToReadOnlyMode(file_location: str):
     print(str(e))
     return 0
 
+  
+def writeToReadOnlyXLSX(df: pd.DataFrame, file_location: str):
+  fileToWriteMode(file_location)
+  df.to_excel(file_location, index=False)
+  fileToReadOnlyMode(file_location)
+  return 1
+
+ 
