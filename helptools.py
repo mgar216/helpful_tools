@@ -54,12 +54,12 @@ def matchToDataFrame(
                         left_df: pd.DataFrame,
                         right_df: pd.DataFrame,
                         on,
-                        match_to_left: bool=True,
+                        compare_to_left: bool=True,
                         ignore_case: bool=True,
                         method: str='levenshtein',
                         threshold: float=1.0,
                         ) -> pd.DataFrame:
-  if not match_to_left:
+  if not compare_to_left:
     left_df, right_df = right_df, left_df
   on = list(on)
   matches = fpd.fuzzy_merge(right_df.reset_index(), left_df,
@@ -78,12 +78,12 @@ def differingDataFrame(
                             left_df: pd.DataFrame,
                             right_df: pd.DataFrame,
                             on,
-                            match_to_left: bool=True,
+                            compare_to_left: bool=True,
                             ignore_case: bool=True,
                             method: str='levenshtein',
                             threshold: float=1.0,
                             ) -> pd.DataFrame:
-  if not match_to_left:
+  if not compare_to_left:
     left_df, right_df = right_df, left_df
   on = list(on)
   matches = fpd.fuzzy_merge(left_df, right_df.reset_index(),
@@ -107,14 +107,14 @@ def compareDataFrame(
                     left_df: pd.DataFrame,
                     right_df: pd.DataFrame,
                     on,
-                    match_to_left: bool=True,
+                    compare_to_left: bool=True,
                     ignore_case: bool=True,
                     method: str='levenshtein',
                     threshold: float=1.0,
                     matching: bool=True
                     ) -> pd.DataFrame:
   if matching:
-    return matchToDataFrame(left_df, right_df, on, match_to_left, ignore_case, method, threshold)
+    return matchToDataFrame(left_df, right_df, on, compare_to_left, ignore_case, method, threshold)
   else:
-    return differingDataFrame(left_df, right_df, on, match_to_left, ignore_case, method, threshold)
+    return differingDataFrame(left_df, right_df, on, compare_to_left, ignore_case, method, threshold)
 
