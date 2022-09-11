@@ -85,7 +85,7 @@ import fuzzy_pandas as fpd
 def matchToDataFrame(
                         left_df: pd.DataFrame,
                         right_df: pd.DataFrame,
-                        on: list,
+                        on,
                         match_to_left: bool=True,
                         ignore_case: bool=True,
                         method: str='levenshtein',
@@ -93,6 +93,7 @@ def matchToDataFrame(
                         ) -> pd.DataFrame:
   if not match_to_left:
     left_df, right_df = right_df, left_df
+  on = list(on)
   matches = fpd.fuzzy_merge(right_df.reset_index(), left_df,
                           on=on,
                           ignore_case=ignore_case,
@@ -108,7 +109,7 @@ def matchToDataFrame(
 def differingDataFrame(
                             left_df: pd.DataFrame,
                             right_df: pd.DataFrame,
-                            on: list,
+                            on,
                             match_to_left: bool=True,
                             ignore_case: bool=True,
                             method: str='levenshtein',
@@ -116,6 +117,7 @@ def differingDataFrame(
                             ) -> pd.DataFrame:
   if not match_to_left:
     left_df, right_df = right_df, left_df
+  on = list(on)
   matches = fpd.fuzzy_merge(left_df, right_df.reset_index(),
                           on=on,
                           ignore_case=ignore_case,
@@ -124,7 +126,7 @@ def differingDataFrame(
                           keep='all',
                           join='right-outer'
                           )
-  matches.columns = ['_left_' + i if n < len(left_df.columns) else i for n, i in enumerate(matches)]
+  matches.columns = ['_left_' + i if n < len(on) else i for n, i in enumerate(matches)]
   col1 = matches.filter(regex='_left_').columns.to_list()
   match_idx = matches.loc[:, col1]
   idx = match_idx[match_idx.applymap(lambda x: len(x) == 0)].dropna().index.to_list()
@@ -136,7 +138,7 @@ def differingDataFrame(
 def compareDataFrame(
                     left_df: pd.DataFrame,
                     right_df: pd.DataFrame,
-                    on: list,
+                    on,
                     match_to_left: bool=True,
                     ignore_case: bool=True,
                     method: str='levenshtein',
