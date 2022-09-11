@@ -50,14 +50,17 @@ def writeToReadOnlyXLSX(df: pd.DataFrame, file_location: str):
   return 1
 
 
-def matchToRightDataFrame(
+def matchToDataFrame(
                         left_df: pd.DataFrame,
                         right_df: pd.DataFrame,
                         on: list,
+                        match_to_left: bool=True,
                         ignore_case: bool=True,
                         method: str='levenshtein',
                         threshold: float=1.0,
-                        ):
+                        ) -> pd.DataFrame:
+  if not match_to_left:
+    left_df, right_df = right_df, left_df
   matches = fpd.fuzzy_merge(right_df.reset_index(), left_df,
                           on=on,
                           ignore_case=ignore_case,
@@ -70,15 +73,17 @@ def matchToRightDataFrame(
   matched = right_df.loc[idx]
   return matched
 
-
-def differingToRightDataFrame(
+def differingDataFrame(
                             left_df: pd.DataFrame,
                             right_df: pd.DataFrame,
                             on: list,
+                            match_to_left: bool=True,
                             ignore_case: bool=True,
                             method: str='levenshtein',
                             threshold: float=1.0,
-                            ):
+                            ) -> pd.DataFrame:
+  if not match_to_left:
+    left_df, right_df = right_df, left_df
   matches = fpd.fuzzy_merge(left_df, right_df.reset_index(),
                           on=on,
                           ignore_case=ignore_case,
