@@ -100,3 +100,19 @@ def differingDataFrame(
   non_matched = right_df.iloc[non_match_idx]
   return non_matched
 
+
+def compareDataFrame(
+                    left_df: pd.DataFrame,
+                    right_df: pd.DataFrame,
+                    on: list,
+                    match_to_left: bool=True,
+                    ignore_case: bool=True,
+                    method: str='levenshtein',
+                    threshold: float=1.0,
+                    matching: bool=True
+                    ) -> pd.DataFrame:
+  if matching:
+    return matchToDataFrame(left_df, right_df, on, match_to_left, ignore_case, method, threshold)
+  else:
+    return differingDataFrame(left_df, right_df, on, match_to_left, ignore_case, method, threshold)
+
